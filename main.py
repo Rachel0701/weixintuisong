@@ -196,14 +196,14 @@ def tip():
             res = conn.getresponse()
             data = res.read()
             data = json.loads(data)
-            quality = data["newslist"][0]["quality"]
+            humidity = data["newslist"][0]["humidity"]
             tips = data["newslist"][0]["tips"]
-            return quality,tips
+            return humidity,tips
         except:
             return ("天气预报API调取错误，请检查API是否正确申请或是否填写正确"),""
 
 #推送信息
-def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, quality, tips, note_en, note_ch, health_tip, lucky_):
+def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips, note_en, note_ch, health_tip, lucky_):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -277,8 +277,8 @@ def send_message(to_user, access_token, city_name, weather, max_temperature, min
                 "color": get_color()
             },
 
-            "quality": {
-                "value": quality,
+            "humidity": {
+                "value": humidity,
                 "color": get_color()
             },
 
@@ -359,17 +359,17 @@ if __name__ == "__main__":
     #健康小提示
     health_tip = health()
     #下雨概率和建议
-    quality,tips = tip()
+    humidity,tips = tip()
     #励志名言
     lizhi = lizhi()
     #星座运势
     lucky_ = lucky()
-    print(city, weather, max_temperature, min_temperature, pipi, lizhi, quality, tips, note_en,
+    print(city, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips, note_en,
                  note_ch, health_tip, lucky_)
 
     # 公众号推送消息
     for user in users:
-        send_message(user, accessToken, city, weather, max_temperature, min_temperature, pipi, lizhi, quality, tips, note_en, note_ch, health_tip, lucky_)
+        send_message(user, accessToken, city, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips, note_en, note_ch, health_tip, lucky_)
     import time
     time_duration = 3.5
     time.sleep(time_duration)
