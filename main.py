@@ -149,7 +149,19 @@ def health():
             data = res.read()
             data = json.loads(data)
             data = data["newslist"][0]["content"]
-            return data
+            if len(data)<=20:
+                data1 = data
+                data2 = ''
+                data3 = ''
+            elif len(data)>20 and len(data)<=40:
+                data1 = data[:20]
+                data2 = data[20:]
+                data3 = ''
+            else:
+                data1 = data[:20]
+                data2 = data[20:40]
+                data3 = data[40:]
+            return data1, data2, data3
         except:
              return ("健康小提示API调取错误，请检查API是否正确申请或是否填写正确")
 
@@ -165,7 +177,24 @@ def lucky():
             data = res.read()
             data = json.loads(data)
             data = str(data["newslist"][8]["content"])
-            return data
+            if len(data)<=20:
+                data1 = data
+                data2 = data3 = data4 = ''
+            elif len(data)>20 and len(data)<=40:
+                data1 = data[:20]
+                data2 = data[20:]
+                data3 = data4 = ''
+            elif len(data)>40 and len(data)<=60:
+                data1 = data[:20]
+                data2 = data[20:40]
+                data3 = data[40:]
+                data4 = ''
+            else:
+                data1 = data[:20]
+                data2 = data[20:40]
+                data3 = data[40:60]
+                data4 = data[60:]
+            return data1, data2, data3, data4
         except:
             return ("星座运势API调取错误，请检查API是否正确申请或是否填写正确")
 
@@ -198,12 +227,29 @@ def tip():
             data = json.loads(data)
             humidity = data["newslist"][0]["humidity"]
             tips = data["newslist"][0]["tips"]
-            return humidity,tips
+            if len(tips)<=20:
+                data1 = tips
+                data2 = data3 = data4 = ''
+            elif len(tips)>20 and len(tips)<=40:
+                data1 = tips[:20]
+                data2 = tips[20:]
+                data3 = data4= ''
+            elif len(tips)>40 and len(tips)<=60:
+                data1 = tips[:20]
+                data2 = tips[20:40]
+                data3 = tips[40:]
+                data4 = ''
+            else:
+                data1 = tips[:20]
+                data2 = tips[20:40]
+                data3 = tips[40:60]
+                data4 = tips[60:]
+            return humidity, data1, data2, data3, data4
         except:
             return ("天气预报API调取错误，请检查API是否正确申请或是否填写正确"),""
 
 #推送信息
-def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips, note_en, note_ch, health_tip, lucky_):
+def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4, note_en, note_ch, health_tip1, health_tip2, health_tip3, lucky1, lucky2, lucky3, lucky4):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -267,8 +313,20 @@ def send_message(to_user, access_token, city_name, weather, max_temperature, min
                 "color": get_color()
             },
 
-            "lucky": {
-                "value": lucky_,
+            "lucky1": {
+                "value": lucky1,
+                "color": get_color()
+            },
+            "lucky2": {
+                "value": lucky2,
+                "color": get_color()
+            },
+            "lucky3": {
+                "value": lucky3,
+                "color": get_color()
+            },
+            "lucky4": {
+                "value": lucky4,
                 "color": get_color()
             },
 
@@ -282,13 +340,33 @@ def send_message(to_user, access_token, city_name, weather, max_temperature, min
                 "color": get_color()
             },
 
-            "health": {
-                "value": health_tip,
+            "health1": {
+                "value": health_tip1,
+                "color": get_color()
+            },
+            "health2": {
+                "value": health_tip2,
+                "color": get_color()
+            },
+            "health3": {
+                "value": health_tip3,
                 "color": get_color()
             },
 
-            "tips": {
-                "value": tips,
+            "tips1": {
+                "value": tips1,
+                "color": get_color()
+            },
+            "tips2": {
+                "value": tips2,
+                "color": get_color()
+            },
+            "tips3": {
+                "value": tips3,
+                "color": get_color()
+            },
+            "tips4": {
+                "value": tips4,
                 "color": get_color()
             }
         }
@@ -357,19 +435,20 @@ if __name__ == "__main__":
     #彩虹屁
     pipi = caihongpi()
     #健康小提示
-    health_tip = health()
+    health_tip1, health_tip2, health_tip3 = health()
     #下雨概率和建议
-    humidity,tips = tip()
+    humidity, tips1, tips2, tips3, tips4 = tip()
     #励志名言
     lizhi = lizhi()
     #星座运势
-    lucky_ = lucky()
-    print(city, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips, note_en,
-                 note_ch, health_tip, lucky_)
+    lucky1, lucky2, lucky3, lucky4 = lucky()
+    print(city, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4,
+          note_en, note_ch, health_tip1, health_tip2, health_tip3, lucky1, lucky2, lucky3, lucky4)
 
     # 公众号推送消息
     for user in users:
-        send_message(user, accessToken, city, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips, note_en, note_ch, health_tip, lucky_)
+        send_message(user, accessToken, city, weather, max_temperature, min_temperature, pipi, lizhi, humidity,
+                     tips1, tips2, tips3, tips4, note_en, note_ch, health_tip1, health_tip2, health_tip3, lucky1, lucky2, lucky3, lucky4)
     import time
     time_duration = 3.5
     time.sleep(time_duration)
