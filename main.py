@@ -179,22 +179,23 @@ def lucky():
             data = str(data["newslist"][8]["content"])
             if len(data)<=20:
                 data1 = data
-                data2 = data3 = data4 = ''
+                data2 = data3 = data4 = data5 = ''
             elif len(data)>20 and len(data)<=40:
                 data1 = data[:20]
                 data2 = data[20:]
-                data3 = data4 = ''
+                data3 = data4 = data5 = ''
             elif len(data)>40 and len(data)<=60:
                 data1 = data[:20]
                 data2 = data[20:40]
                 data3 = data[40:]
-                data4 = ''
+                data4 = data5 = ''
             else:
                 data1 = data[:20]
                 data2 = data[20:40]
                 data3 = data[40:60]
-                data4 = data[60:]
-            return data1, data2, data3, data4
+                data4 = data[60:80]
+                data5 = data[80:]
+            return data1, data2, data3, data4, data5
         except:
             return ("星座运势API调取错误，请检查API是否正确申请或是否填写正确")
 
@@ -315,7 +316,8 @@ def tip():
             return ("天气预报API调取错误，请检查API是否正确申请或是否填写正确"),""
 
 #推送信息
-def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4, note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4):
+def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4,
+                 note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4,lucky1, lucky2, lucky3, lucky4, lucky5):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -383,16 +385,33 @@ def send_message(to_user, access_token, city_name, weather, max_temperature, min
                 "value": lovepoem1,
                 "color": get_color()
             },
-            "lucky2": {
+            "lovepoem2": {
                 "value": lovepoem2,
                 "color": get_color()
             },
-            "lucky3": {
+            "lovepoem3": {
                 "value": lovepoem3,
                 "color": get_color()
             },
-            "lucky4": {
+            "lovepoem4": {
                 "value": lovepoem4,
+                "color": get_color()
+            },
+
+            "lucky1": {
+                "value": lucky1,
+                "color": get_color()
+            },
+            "lucky2": {
+                "value": lucky2,
+                "color": get_color()
+            },
+            "lucky3": {
+                "value": lucky3,
+                "color": get_color()
+            },
+            "lucky4": {
+                "value": lucky4,
                 "color": get_color()
             },
 
@@ -515,7 +534,7 @@ if __name__ == "__main__":
     #励志名言
     lizhi = lizhi()
     #星座运势
-    # lucky1, lucky2, lucky3, lucky4 = lucky()
+    lucky1, lucky2, lucky3, lucky4, lucky5 = lucky()
     #舔狗日记
     tiangou1, tiangou2, tiangou3, tiangou4 = tiangou()
     #情诗
@@ -526,7 +545,8 @@ if __name__ == "__main__":
     # 公众号推送消息
     for user in users:
         send_message(user, accessToken, city, weather, max_temperature, min_temperature, pipi, lizhi, humidity,
-                     tips1, tips2, tips3, tips4, note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4)
+                     tips1, tips2, tips3, tips4, note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4,
+                     lucky1, lucky2, lucky3, lucky4, lucky5)
     import time
     time_duration = 3.5
     time.sleep(time_duration)
@@ -543,5 +563,6 @@ if __name__ == "__main__":
 # 今天是我们恋爱的第{{love_day.DATA}}天
 # 距离宝宝生日还有{{birthday1.DATA}}天
 # 距离我的生日还有{{birthday2.DATA}}天
+# 星座运势：{{lucky1.DATA}}{{lucky2.DATA}}{{lucky3.DATA}}{{lucky4.DATA}}{{lucky5.DATA}}
 # 舔狗日记：{{tiangou1.DATA}}{{tiangou2.DATA}}{{tiangou3.DATA}}{{tiangou4.DATA}}
 # 古典情诗：{{lovepoem1.DATA}}{{lovepoem2.DATA}}{{lovepoem3.DATA}}{{lovepoem4.DATA}}
