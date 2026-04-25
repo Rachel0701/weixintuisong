@@ -212,7 +212,73 @@ def lizhi():
             return data["newslist"][0]["saying"]
         except:
             return ("励志古言API调取错误，请检查API是否正确申请或是否填写正确")
-        
+
+
+
+def tiangou():
+    if (Whether_tiangou!=False):
+        try:
+            conn = http.client.HTTPSConnection('apis.tianapi.com')  # 接口域名
+            params = urllib.parse.urlencode({'key': tianxing_API})
+            headers = {'Content-type': 'application/x-www-form-urlencoded'}
+            conn.request('POST', '/tiangou/index', params, headers)
+            res = conn.getresponse()
+            data = res.read()
+            data = json.loads(data)
+            data = str(data["result"]["content"])
+            if len(data)<=20:
+                data1 = data
+                data2 = data3 = data4 = ''
+            elif len(data)>20 and len(data)<=40:
+                data1 = data[:20]
+                data2 = data[20:]
+                data3 = data4 = ''
+            elif len(data)>40 and len(data)<=60:
+                data1 = data[:20]
+                data2 = data[20:40]
+                data3 = data[40:]
+                data4 = ''
+            else:
+                data1 = data[:20]
+                data2 = data[20:40]
+                data3 = data[40:60]
+                data4 = data[60:]
+            return data1, data2, data3, data4
+
+        except:
+            return ("舔狗日记API调取错误，请检查API是否正确申请或是否填写正确")
+
+def lovepoem():
+    if (Whether_lovepoem!=False):
+        try:
+            conn = http.client.HTTPSConnection('apis.tianapi.com')  # 接口域名
+            params = urllib.parse.urlencode({'key': tianxing_API})
+            headers = {'Content-type': 'application/x-www-form-urlencoded'}
+            conn.request('POST', '/qingshi/index', params, headers)
+            res = conn.getresponse()
+            data = res.read()
+            data = json.loads(data)
+            data = str(data["result"]["content"])
+            if len(data)<=20:
+                data1 = data
+                data2 = data3 = data4 = ''
+            elif len(data)>20 and len(data)<=40:
+                data1 = data[:20]
+                data2 = data[20:]
+                data3 = data4 = ''
+            elif len(data)>40 and len(data)<=60:
+                data1 = data[:20]
+                data2 = data[20:40]
+                data3 = data[40:]
+                data4 = ''
+            else:
+                data1 = data[:20]
+                data2 = data[20:40]
+                data3 = data[40:60]
+                data4 = data[60:]
+            return data1, data2, data3, data4
+        except:
+            return ("古代情诗API调取错误，请检查API是否正确申请或是否填写正确")
 
 #下雨概率和建议
 def tip():
@@ -249,7 +315,7 @@ def tip():
             return ("天气预报API调取错误，请检查API是否正确申请或是否填写正确"),""
 
 #推送信息
-def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4, note_en, note_ch, health_tip1, health_tip2, health_tip3, lucky1, lucky2, lucky3, lucky4):
+def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4, note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -313,20 +379,20 @@ def send_message(to_user, access_token, city_name, weather, max_temperature, min
                 "color": get_color()
             },
 
-            "lucky1": {
-                "value": lucky1,
+            "lovepoem1": {
+                "value": lovepoem1,
                 "color": get_color()
             },
             "lucky2": {
-                "value": lucky2,
+                "value": lovepoem2,
                 "color": get_color()
             },
             "lucky3": {
-                "value": lucky3,
+                "value": lovepoem3,
                 "color": get_color()
             },
             "lucky4": {
-                "value": lucky4,
+                "value": lovepoem4,
                 "color": get_color()
             },
 
@@ -340,33 +406,37 @@ def send_message(to_user, access_token, city_name, weather, max_temperature, min
                 "color": get_color()
             },
 
-            "health1": {
-                "value": health_tip1,
+            "lovepoem1": {
+                "value": lovepoem1,
                 "color": get_color()
             },
-            "health2": {
-                "value": health_tip2,
+            "lovepoem2": {
+                "value": lovepoem2,
                 "color": get_color()
             },
-            "health3": {
-                "value": health_tip3,
+            "lovepoem3": {
+                "value": lovepoem3,
+                "color": get_color()
+            },
+            "lovepoem4": {
+                "value": lovepoem4,
                 "color": get_color()
             },
 
-            "tips1": {
-                "value": tips1,
+            "tiangou1": {
+                "value": tiangou1,
                 "color": get_color()
             },
-            "tips2": {
-                "value": tips2,
+            "tiangou2": {
+                "value": tiangou2,
                 "color": get_color()
             },
-            "tips3": {
-                "value": tips3,
+            "tiangou3": {
+                "value": tiangou3,
                 "color": get_color()
             },
-            "tips4": {
-                "value": tips4,
+            "tiangou4": {
+                "value": tiangou4,
                 "color": get_color()
             }
         }
@@ -428,6 +498,10 @@ if __name__ == "__main__":
     Whether_caihongpi=config["Whether_caihongpi"]
     #是否启用健康小提示API
     Whether_health=config["Whether_health"]
+    #是否启用古代情诗API
+    Whether_lovepoem=config["Whether_lovepoem"]
+    #是否启用舔狗日记示API
+    Whether_tiangou=config["Whether_tiangou"]
     #获取星座
     astro = config["astro"]
     # 获取词霸每日金句
@@ -435,20 +509,39 @@ if __name__ == "__main__":
     #彩虹屁
     pipi = caihongpi()
     #健康小提示
-    health_tip1, health_tip2, health_tip3 = health()
+    # health_tip1, health_tip2, health_tip3 = health()
     #下雨概率和建议
     humidity, tips1, tips2, tips3, tips4 = tip()
     #励志名言
     lizhi = lizhi()
     #星座运势
-    lucky1, lucky2, lucky3, lucky4 = lucky()
+    # lucky1, lucky2, lucky3, lucky4 = lucky()
+    #舔狗日记
+    tiangou1, tiangou2, tiangou3, tiangou4 = tiangou()
+    #情诗
+    lovepoem1, lovepoem2, lovepoem3, lovepoem4 = lovepoem()
     print(city, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4,
-          note_en, note_ch, health_tip1, health_tip2, health_tip3, lucky1, lucky2, lucky3, lucky4)
+          note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4)
 
     # 公众号推送消息
     for user in users:
         send_message(user, accessToken, city, weather, max_temperature, min_temperature, pipi, lizhi, humidity,
-                     tips1, tips2, tips3, tips4, note_en, note_ch, health_tip1, health_tip2, health_tip3, lucky1, lucky2, lucky3, lucky4)
+                     tips1, tips2, tips3, tips4, note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4)
     import time
     time_duration = 3.5
     time.sleep(time_duration)
+
+
+### 模板
+# {{date.DATA}}
+# 城市：{{city.DATA}}
+# 天气：{{weather.DATA}}
+# 最低气温: {{min_temperature.DATA}}
+# 最高气温: {{max_temperature.DATA}}
+# 空气湿度：{{humidity.DATA}}%
+# 今日建议：{{tips1.DATA}}{{tips2.DATA}}{{tips3.DATA}}{{tips4.DATA}}
+# 今天是我们恋爱的第{{love_day.DATA}}天
+# 距离宝宝生日还有{{birthday1.DATA}}天
+# 距离我的生日还有{{birthday2.DATA}}天
+# 舔狗日记：{{tiangou1.DATA}}{{tiangou2.DATA}}{{tiangou3.DATA}}{{tiangou4.DATA}}
+# 古典情诗：{{lovepoem1.DATA}}{{lovepoem2.DATA}}{{lovepoem3.DATA}}{{lovepoem4.DATA}}
