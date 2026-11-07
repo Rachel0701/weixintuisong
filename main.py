@@ -317,7 +317,7 @@ def tip():
 
 #推送信息
 def send_message(to_user, access_token, city_name, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4,
-                 note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4,lucky1, lucky2, lucky3, lucky4, lucky5):
+                 lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4,lucky1, lucky2, lucky3, lucky4, lucky5):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -365,14 +365,6 @@ def send_message(to_user, access_token, city_name, weather, max_temperature, min
             },
             "love_day": {
                 "value": love_days,
-                "color": get_color()
-            },
-            "note_en": {
-                "value": note_en,
-                "color": get_color()
-            },
-            "note_ch": {
-                "value": note_ch,
                 "color": get_color()
             },
 
@@ -524,7 +516,7 @@ if __name__ == "__main__":
     #获取星座
     astro = config["astro"]
     # 获取词霸每日金句
-    note_ch, note_en = get_ciba()
+    # note_ch, note_en = get_ciba()
     #彩虹屁
     pipi = caihongpi()
     #健康小提示
@@ -540,12 +532,12 @@ if __name__ == "__main__":
     #情诗
     lovepoem1, lovepoem2, lovepoem3, lovepoem4 = lovepoem()
     print(city, weather, max_temperature, min_temperature, pipi, lizhi, humidity, tips1, tips2, tips3, tips4,
-          note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4)
+          lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4)
 
     # 公众号推送消息
     for user in users:
         send_message(user, accessToken, city, weather, max_temperature, min_temperature, pipi, lizhi, humidity,
-                     tips1, tips2, tips3, tips4, note_en, note_ch, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4,
+                     tips1, tips2, tips3, tips4, lovepoem1, lovepoem2, lovepoem3, lovepoem4, tiangou1, tiangou2, tiangou3, tiangou4,
                      lucky1, lucky2, lucky3, lucky4, lucky5)
     import time
     time_duration = 3.5
@@ -564,5 +556,5 @@ if __name__ == "__main__":
 # 距离宝宝生日还有{{birthday1.DATA}}天
 # 距离我的生日还有{{birthday2.DATA}}天
 # 星座运势：{{lucky1.DATA}}{{lucky2.DATA}}{{lucky3.DATA}}{{lucky4.DATA}}{{lucky5.DATA}}
-# 舔狗日记：{{tiangou1.DATA}}{{tiangou2.DATA}}{{tiangou3.DATA}}{{tiangou4.DATA}}
+# 小狗日记：{{tiangou1.DATA}}{{tiangou2.DATA}}{{tiangou3.DATA}}{{tiangou4.DATA}}
 # 古典情诗：{{lovepoem1.DATA}}{{lovepoem2.DATA}}{{lovepoem3.DATA}}{{lovepoem4.DATA}}
